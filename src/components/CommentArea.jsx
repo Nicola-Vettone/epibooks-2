@@ -6,7 +6,7 @@ const token =
 
 class CommentArea extends Component {
   state = {
-    comments: "",
+    comments: [],
     rate: "",
     elementId: this.props.asin,
   };

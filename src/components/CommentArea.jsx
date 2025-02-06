@@ -8,7 +8,7 @@ class CommentArea extends Component {
   state = {
     comments: "",
     rate: "",
-    elementId: "",
+    elementId: this.props.asin,
   };
 
   fetchComments = async () => {
@@ -38,13 +38,21 @@ class CommentArea extends Component {
     this.fetchComments();
   }
 
+  componentDidUpdate(prevProps) {
+    if (prevProps.asin !== this.props.asin) {
+      this.setState({ elementId: this.props.asin }, () => {
+        this.fetchComments(); // Fai il fetch dei nuovi commenti per il nuovo asin
+      });
+    }
+  }
+
   render() {
     return (
       <ListGroup as="ul">
         {this.state.comments.length > 0 ? (
           this.state.comments.map((comment) => (
             <ListGroup.Item key={comment._id}>
-              <strong>{comment.author}:</strong> {comment.comment} Rate: {comment.rate}/5
+              <strong>{comment.author}:</strong> {comment.comment} <strong>Valutazione:</strong> {comment.rate}/5
             </ListGroup.Item>
           ))
         ) : (
